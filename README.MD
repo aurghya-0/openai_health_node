@@ -1,7 +1,4 @@
 Here's a basic `README.md` file for your project:
-
----
-
 # Patient Department Suggestion System
 
 This project is an Express.js web application that provides department suggestions based on patient queries. It uses OpenAI's API to process patient information and suggest the appropriate department. The application also stores patient queries and suggestions in a SQLite database and allows users to view a list of previous queries.
