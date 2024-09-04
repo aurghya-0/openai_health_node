@@ -17,6 +17,7 @@
                     <th>Previous Medications</th>
                     <th>Previous Conditions</th>
                     <th>Department Suggestion</th>
+                    <th>Patient Query</th>
                     <th>Emergency</th>
                 </tr>
             </thead>
@@ -28,6 +29,7 @@
                         <td><%= patient.previousMedications %></td>
                         <td><%= patient.previousConditions %></td>
                         <td><%= patient.departmentSuggestion %></td>
+                        <td><%= patient.patientQuery %></td>
                         <td>
                             <% if (patient.emergency) { %>
                                 <span class="emergency">Yes</span>
