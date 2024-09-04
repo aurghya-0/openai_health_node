@@ -49,8 +49,7 @@ export async function getDepartmentSuggestion(userMessage) {
   // Save to the database
   const db = await openDb();
   await db.run(
-    `INSERT INTO patients (name, age, previousMedications, previousConditions, departmentSuggestion, emergency, patientQuery)
-     VALUES (?, ?, ?, ?, ?, ?, ?)`,
+    `INSERT INTO patients (name, age, previousMedications, previousConditions, departmentSuggestion, emergency, patientQuery) VALUES (?, ?, ?, ?, ?, ?, ?)`,
     [
         departmentSuggestion.patientProfile.name,
         departmentSuggestion.patientProfile.age,

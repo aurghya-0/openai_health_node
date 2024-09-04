@@ -1,14 +1,14 @@
 // Import necessary modules and initialize the database
 import express from 'express';
-import { getDepartmentSuggestion } from './departmentSuggestion.js';
+import { getDepartmentSuggestion } from './src/departmentSuggestion.js';
 import dotenv from 'dotenv';
-import { initializeDb, openDb } from './database.js';
+import { initializeDb, openDb } from './src/database.js';
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
-
+const address = process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost';
 // Initialize the database
 initializeDb();
 
@@ -56,6 +56,6 @@ app.get('/patients', async (req, res) => {
 });
 
 // Start the server
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+app.listen(port, address, () => {
+    console.log(`Server is running on http://${address}:${port}`);
 });
