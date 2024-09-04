@@ -1,5 +1,6 @@
 import sqlite3 from 'sqlite3';
 import { open } from 'sqlite';
+import fs from 'fs';
 
 // Open the SQLite database
 export async function openDb() {
@@ -9,19 +10,29 @@ export async function openDb() {
     });
 }
 
-// Initialize the database (run this once to set up the table)
+// Initialize the database if it doesn't exist
 export async function initializeDb() {
-    const db = await openDb();
-    await db.exec(`
-        CREATE TABLE IF NOT EXISTS patients (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT,
-            age TEXT,
-            previousMedications TEXT,
-            previousConditions TEXT,
-            departmentSuggestion TEXT,
-            emergency BOOLEAN
-        );
-    `);
-    console.log("Database initialized");
+    const dbFile = './database.db';
+
+    if (!fs.existsSync(dbFile)) {
+        console.log("Database file does not exist, creating and initializing the database...");
+
+        const db = await openDb();
+        await db.exec(`
+            CREATE TABLE IF NOT EXISTS patients (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT,
+                age TEXT,
+                previousMedications TEXT,
+                previousConditions TEXT,
+                departmentSuggestion TEXT,
+                emergency BOOLEAN,
+                patientQuery TEXT  -- New column to store the patient query
+            );
+        `);
+
+        console.log("Database initialized.");
+    } else {
+        console.log("Database file exists, no need to initialize.");
+    }
 }

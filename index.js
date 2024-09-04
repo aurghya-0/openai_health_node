@@ -10,7 +10,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Initialize the database
-initializeDb();
+// initializeDb();
 
 // Set the view engine to EJS
 app.set('view engine', 'ejs');
