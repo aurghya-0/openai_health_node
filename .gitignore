@@ -142,6 +142,6 @@ dist
 .svelte-kit
 
 # databases
-
+*.db
 
 # End of https://www.toptal.com/developers/gitignore/api/node
