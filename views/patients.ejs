@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient List</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Patient List</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Previous Medications</th>
+                    <th>Previous Conditions</th>
+                    <th>Department Suggestion</th>
+                    <th>Emergency</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% patients.forEach(patient => { %>
+                    <tr>
+                        <td><%= patient.name %></td>
+                        <td><%= patient.age %></td>
+                        <td><%= patient.previousMedications %></td>
+                        <td><%= patient.previousConditions %></td>
+                        <td><%= patient.departmentSuggestion %></td>
+                        <td>
+                            <% if (patient.emergency) { %>
+                                <span class="emergency">Yes</span>
+                            <% } else { %>
+                                No
+                            <% } %>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <a href="/" class="btn">Back to Home</a>
+    </div>
+</body>
+</html>

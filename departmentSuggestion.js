@@ -1,19 +1,15 @@
-// departmentSuggestion.js
-
 import OpenAI from "openai";
 import { zodResponseFormat } from "openai/helpers/zod";
 import { z } from "zod";
 import dotenv from "dotenv";
+import { openDb } from './database.js';
 
-// Load environment variables from .env file
 dotenv.config();
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
-// Initialize OpenAI with the API key
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 
-// Define the schema for PatientProfile
 const PatientProfile = z.object({
   name: z.string(),
   age: z.string(),
@@ -22,17 +18,15 @@ const PatientProfile = z.object({
   patientQuery: z.string(),
 });
 
-// Define the schema for DepartmentSuggestion
 const DepartmentSuggestion = z.object({
   patientProfile: PatientProfile,
   departmentSuggestion: z.string(),
   emergency: z.boolean(),
 });
 
-// Function to get department suggestion
 export async function getDepartmentSuggestion(userMessage) {
   const completion = await openai.beta.chat.completions.parse({
-    model: "gpt-4o-2024-08-06",
+    model: "gpt-4o-mini-2024-07-18",
     messages: [
       {
         role: "system",
@@ -46,9 +40,24 @@ export async function getDepartmentSuggestion(userMessage) {
     ],
     response_format: zodResponseFormat(
       DepartmentSuggestion,
-      "department_suggestion",
+      "department_suggestion"
     ),
   });
 
-  return completion.choices[0].message.parsed;
+  const departmentSuggestion = completion.choices[0].message.parsed;
+
+  // Save to the database
+  const db = await openDb();
+  await db.run(
+    `INSERT INTO patients (name, age, previousMedications, previousConditions, departmentSuggestion, emergency)
+     VALUES (?, ?, ?, ?, ?, ?)`,
+    departmentSuggestion.patientProfile.name,
+    departmentSuggestion.patientProfile.age,
+    departmentSuggestion.patientProfile.previousMedications.join(', '),
+    departmentSuggestion.patientProfile.previousConditions.join(', '),
+    departmentSuggestion.departmentSuggestion,
+    departmentSuggestion.emergency ? 1 : 0
+  );
+
+  return departmentSuggestion;
 }
