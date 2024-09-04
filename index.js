@@ -4,7 +4,7 @@ import { getDepartmentSuggestion } from "./departmentSuggestion.js";
 
 async function run() {
   const userMessage =
-    "I am John Doe (M), my date of birth is 19th Nov, 1994. I am having a slight pain in stomach. I have a history of gastritis. I take Pantaprazole 40mg once daily in the morning. I have had no previous surgeries and no family problems as such.";
+    "Nova Scott, 28 M, Previously diagnosed with choleterol, having high blood pressure with blood sugar, feeling dizzy.";
 
   try {
     const departmentSuggestion = await getDepartmentSuggestion(userMessage);

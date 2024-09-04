@@ -19,6 +19,7 @@ const PatientProfile = z.object({
   age: z.string(),
   previousMedications: z.array(z.string()),
   previousConditions: z.array(z.string()),
+  patientQuery: z.string(),
 });
 
 // Define the schema for DepartmentSuggestion
