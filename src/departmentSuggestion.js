@@ -6,10 +6,11 @@ import { openDb } from './database.js';
 
 dotenv.config();
 
+// Load API Key from .env file
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 
+// Template object for Patient Profile
 const PatientProfile = z.object({
   name: z.string(),
   age: z.string(),
@@ -18,12 +19,14 @@ const PatientProfile = z.object({
   patientQuery: z.string(),
 });
 
+// Template object for Department Suggestion (This object gets sent)
 const DepartmentSuggestion = z.object({
   patientProfile: PatientProfile,
   departmentSuggestion: z.string(),
   emergency: z.boolean(),
 });
 
+// Function to get the response from OpenAI and save the response to DB
 export async function getDepartmentSuggestion(userMessage) {
   const completion = await openai.beta.chat.completions.parse({
     model: "gpt-4o-mini-2024-07-18",
@@ -44,6 +47,7 @@ export async function getDepartmentSuggestion(userMessage) {
     ),
   });
 
+  console.log(completion.choices);
   const departmentSuggestion = completion.choices[0].message.parsed;
 
   // Save to the database

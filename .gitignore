@@ -143,5 +143,7 @@ dist
 
 # databases
 *.db
+*.prj
+*.pui
 
 # End of https://www.toptal.com/developers/gitignore/api/node
